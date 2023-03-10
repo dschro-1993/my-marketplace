@@ -1,3 +1,4 @@
+import { USERS_TABLE_NAME } from '../../constructs/dynamo';
 import { CrudRepository } from '../lib/dynamodb';
 import { DataObjectEntity } from '../lib/entity';
 import { User } from '../lib/model';
@@ -7,7 +8,7 @@ export interface UserDataObject extends DataObjectEntity {
   e: string; // email
 }
 
-export const translateToDataObject = (user: User): UserDataObject => {
+export const translateUserToDataObject = (user: User): UserDataObject => {
   return {
     id: user.id,
     n: user.name,
@@ -17,7 +18,7 @@ export const translateToDataObject = (user: User): UserDataObject => {
   };
 };
 
-export const translateFromDataObject = (userDataObject: UserDataObject): User => {
+export const translateFromDataObjectToUser = (userDataObject: UserDataObject): User => {
   return {
     id: userDataObject.id,
     name: userDataObject.n,
@@ -27,4 +28,4 @@ export const translateFromDataObject = (userDataObject: UserDataObject): User =>
   };
 };
 
-export const repository = (tableName: string) => new CrudRepository<UserDataObject>(tableName);
+export const userRepository = () => new CrudRepository<UserDataObject>(USERS_TABLE_NAME);

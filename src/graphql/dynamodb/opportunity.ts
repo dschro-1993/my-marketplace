@@ -1,3 +1,5 @@
+import { translateFromDataObjectToUser, userRepository } from './user';
+import { OPPORTUNITIES_TABLE_NAME } from '../../constructs/dynamo';
 import { CrudRepository } from '../lib/dynamodb';
 import { DataObjectEntity } from '../lib/entity';
 import { Opportunity } from '../lib/model';
@@ -8,7 +10,7 @@ export interface OpportunityDataObject extends DataObjectEntity {
   r: string; // reporter id
 }
 
-export const translateToDataObject = (opportunity: Opportunity): OpportunityDataObject => {
+export const translateOpportunityToDataObject = async (opportunity: Opportunity): Promise<OpportunityDataObject> => {
   return {
     id: opportunity.id,
     n: opportunity.name,
@@ -19,15 +21,19 @@ export const translateToDataObject = (opportunity: Opportunity): OpportunityData
   };
 };
 
-export const translateFromDataObject = (opportunityDataObject: OpportunityDataObject): Opportunity => {
+export const translateFromDataObjectToOpportunity = async (opportunityDataObject: OpportunityDataObject): Promise<Opportunity> => {
+
+  const reporter = await userRepository().get({ id: opportunityDataObject.r });
+  if (!reporter) throw new Error(`Reporter with id ${opportunityDataObject.r} not found`);
+
   return {
     id: opportunityDataObject.id,
     name: opportunityDataObject.n,
     description: opportunityDataObject.d,
-    reporter: opportunityDataObject.r, // TODO: shall we resolve the user here?
+    reporter: translateFromDataObjectToUser(reporter!),
     createdDate: new Date(opportunityDataObject.createdAt),
     lastModifiedDate: new Date(opportunityDataObject.updatedAt),
   };
 };
 
-export const repository = (tableName: string) => new CrudRepository<OpportunityDataObject>(tableName);
+export const opportunityRepository = () => new CrudRepository<OpportunityDataObject>(OPPORTUNITIES_TABLE_NAME);
