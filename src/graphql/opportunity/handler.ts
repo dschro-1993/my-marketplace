@@ -1,10 +1,10 @@
-import middy from '@middy/core';
-import { Opportunity } from '../lib/model';
-import { logger, tracer, metrics } from './common/powertools';
-import { logMetrics } from '@aws-lambda-powertools/metrics';
 import { injectLambdaContext } from '@aws-lambda-powertools/logger';
+import { logMetrics } from '@aws-lambda-powertools/metrics';
 import { captureLambdaHandler } from '@aws-lambda-powertools/tracer';
+import middy from '@middy/core';
 import { Context } from 'aws-lambda';
+import { logger, tracer, metrics } from './common/powertools';
+import { Opportunity } from '../lib/model';
 
 const TABLE_NAME = process.env.TABLE_NAME;
 

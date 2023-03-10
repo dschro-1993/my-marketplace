@@ -1,16 +1,15 @@
-// https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html
-import * as DynamoDB     from "aws-sdk/clients/dynamodb";
-import {AuditableEntity} from "./entity"
+import https from 'https';
+import * as DynamoDB from 'aws-sdk/clients/dynamodb';
+import { AuditableEntity } from './entity';
 
 export class CrudRepository<T extends AuditableEntity> {
   private documentClient: DynamoDB.DocumentClient;
-  private tableName:      string;
+  private tableName: string;
 
   constructor(tableName: string, options?: DynamoDB.Types.ClientConfiguration) {
-    const https = require("https");
     const agent = new https.Agent({ keepAlive: true });
     this.documentClient = new DynamoDB.DocumentClient({ ...options, httpOptions: { agent } });
-    this.tableName      = tableName;
+    this.tableName = tableName;
   }
 
   /**
@@ -40,7 +39,7 @@ export class CrudRepository<T extends AuditableEntity> {
       Key: keys,
     };
     try {
-      const  item = await this.documentClient.get(params).promise();
+      const item = await this.documentClient.get(params).promise();
       return item.Item as T;
     } catch (error) {
       console.error(error); // Todo
@@ -59,9 +58,9 @@ export class CrudRepository<T extends AuditableEntity> {
     const params: DynamoDB.DocumentClient.UpdateItemInput = {
       TableName: this.tableName,
       Key: keys,
-      ConditionExpression: Object.keys(keys).map((key) => `attribute_exists(${key})`).join(" and "),
+      ConditionExpression: Object.keys(keys).map((key) => `attribute_exists(${key})`).join(' and '),
       UpdateExpression: `set #${itemKey0} = :${itemKey0}`,
-      ExpressionAttributeNames:  { [`#${itemKey0}`]: itemKey0 },
+      ExpressionAttributeNames: { [`#${itemKey0}`]: itemKey0 },
       ExpressionAttributeValues: { [`:${itemKey0}`]: item[itemKey0] },
     };
     itemKeys.splice(1).forEach((itemKeyX) => {
