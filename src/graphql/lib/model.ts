@@ -16,11 +16,9 @@ export interface Opportunity {
 }
 
 export interface CreateOpportunityRequest extends Opportunity { }
-export interface CreateOpportunityResponse extends Opportunity { }
 export interface UpdateOpportunityRequest extends Opportunity {
   id: string;
 }
-export interface UpdateOpportunityResponse extends Opportunity { }
 
 export interface DeleteOpportunityRequest {
   id: string;
