@@ -4,3 +4,7 @@ export type AuditableEntity = {
   updatedAt: string;
   [key: string]: any;
 }
+
+export interface DataObjectEntity extends AuditableEntity {
+  id: string;
+}
