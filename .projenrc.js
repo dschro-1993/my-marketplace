@@ -17,20 +17,6 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     'aws-sdk',
     '@middy/core',
   ],
-  // eslintOptions: {
-  //   dirs: [
-  //     'src',
-  //     'next',
-  //     'graphql',
-  //   ],
-  // },
-
-  // tsconfig: {
-  //   include: [
-  //     'next/**/*.ts',
-  //     'graphql/**/*.ts',
-  //   ],
-  // },
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   // devDeps: [],             /* Build dependencies for this module. */
   // packageName: undefined,  /* The "name" in package.json. */
