@@ -1,8 +1,8 @@
 // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html
-import * as DynamoDB from "aws-sdk/clients/dynamodb";
-import {Entity}      from "./entity"
+import * as DynamoDB     from "aws-sdk/clients/dynamodb";
+import {AuditableEntity} from "./entity"
 
-export class CrudRepository<T extends Entity> {
+export class CrudRepository<T extends AuditableEntity> {
   private documentClient: DynamoDB.DocumentClient;
   private tableName:      string;
 
