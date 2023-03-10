@@ -48,6 +48,23 @@ export class CrudRepository<T extends AuditableEntity> {
   }
 
   /**
+   * Return all items in the table by delegating to AWS.DynamoDB.DocumentClient.scan().
+   * @returns {Promise<T[]>}
+   */
+  async scan(): Promise<T[]> { // TODO: We can't implement pagination here, what is the alternative?
+    const params: DynamoDB.DocumentClient.ScanInput = {
+      TableName: this.tableName,
+    };
+    try {
+      const items = await this.documentClient.scan(params).promise();
+      return items.Items as T[];
+    } catch (error) {
+      console.error(error); // Todo
+      throw error;
+    }
+  }
+
+  /**
    * Updates a single item with the given primary key by delegating to AWS.DynamoDB.DocumentClient.update().
    * @param keys
    * @param item
