@@ -2,6 +2,9 @@ import { DynamoDbDataSource, GraphqlApi } from 'aws-cdk-lib/aws-appsync';
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Construct } from 'constructs';
 
+export const OPPORTUNITIES_TABLE_NAME = 'OpportunitiesTable';
+export const USERS_TABLE_NAME = 'UsersTable';
+
 interface DynamoDBProps {
   api: GraphqlApi;
 }
@@ -31,7 +34,7 @@ export class DynamoDataSource extends Construct {
         name: 'name',
         type: AttributeType.STRING,
       },
-      tableName: 'OpportunitiesTable',
+      tableName: OPPORTUNITIES_TABLE_NAME,
     });
     this.opportunitiesDS = this.api.addDynamoDbDataSource('OpportunitiesDataSource', this.opportunitiesTable);
 
@@ -40,7 +43,7 @@ export class DynamoDataSource extends Construct {
         name: 'email',
         type: AttributeType.STRING,
       },
-      tableName: 'UsersTable',
+      tableName: USERS_TABLE_NAME,
     });
     this.usersDS = this.api.addDynamoDbDataSource('UsersDataSource', this.usersTable);
   }

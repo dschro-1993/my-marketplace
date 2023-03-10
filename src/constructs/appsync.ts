@@ -81,9 +81,6 @@ export class GraphQLBackend extends Construct {
     const handler = new NodejsFunction(this, 'opportunitiesHandler', {
       ...commonHandlerProps,
       entry: path.join(__dirname, 'lambda', 'opportunity.ts'),
-      environment: {
-        TABLE_NAME: this.dynamoDS.opportunitiesTable.tableName,
-      },
     });
 
     this.dynamoDS.opportunitiesTable.grantReadWriteData(handler);
