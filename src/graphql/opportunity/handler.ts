@@ -1,4 +1,4 @@
-import { opportunityRepository, translateFromDataObjectToOpportunity, translateOpportunityToDataObject } from '../dynamodb/opportunity';
+import { opportunityRepository, translateFromDataObjectToOpportunity, translateOpportunityToDataObject } from './repo';
 import { AppsyncEvent, connectMiddleware } from '../lib/handler';
 import { CreateOpportunityRequest, DeleteOpportunityRequest, GetOpportunitiesResponse, UpdateOpportunityRequest } from '../lib/model';
 

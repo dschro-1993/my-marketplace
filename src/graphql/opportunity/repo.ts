@@ -1,8 +1,8 @@
-import { translateFromDataObjectToUser, userRepository } from './user';
 import { OPPORTUNITIES_TABLE_NAME } from '../../constructs/dynamo';
 import { CrudRepository } from '../lib/dynamodb';
 import { DataObjectEntity } from '../lib/entity';
 import { Opportunity } from '../lib/model';
+import { translateFromDataObjectToUser, userRepository } from '../user/repo';
 
 export interface OpportunityDataObject extends DataObjectEntity {
   n: string; // name
