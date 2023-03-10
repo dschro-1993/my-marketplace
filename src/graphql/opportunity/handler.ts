@@ -1,12 +1,5 @@
-import { injectLambdaContext } from '@aws-lambda-powertools/logger';
-import { logMetrics } from '@aws-lambda-powertools/metrics';
-import { captureLambdaHandler } from '@aws-lambda-powertools/tracer';
-import middy from '@middy/core';
-import { Context } from 'aws-lambda';
-import { logger, tracer, metrics } from './common/powertools';
-import { Opportunity } from '../lib/model';
-
-const TABLE_NAME = process.env.TABLE_NAME;
+import { AppsyncEvent, connectMiddleware } from '../lib/handler';
+import { CreateOpportunityRequest, CreateOpportunityResponse, DeleteOpportunityRequest, GetOpportunitiesResponse, UpdateOpportunityRequest, UpdateOpportunityResponse } from '../lib/model';
 
 const enum FieldName {
   getOpportunities = 'getOpportunities',
@@ -15,54 +8,32 @@ const enum FieldName {
   createOpportunity = 'createOpportunity',
 }
 
-interface Event {
-  info: {
-    fieldName: FieldName;
-  };
-
-  arguments: {
-    id?: string;
-    opportunity?: Opportunity;
-  };
-}
-
-const getOpportunities = async (): Promise<Opportunity[]> => {
-  return [];
+const getOpportunities = async (): Promise<GetOpportunitiesResponse> => {
+  return { opportunities: [] };
 };
 
-const deleteOpportunity = async () => {
+const deleteOpportunity = async (event: DeleteOpportunityRequest) => {
 };
 
-const updateOpportunity = async (id?: string, opportunity?: Opportunity): Promise<Opportunity> => {
-
-  if (!id) throw new Error('id is required');
-  if (!opportunity) throw new Error('opportunity is required');
-
-  return opportunity;
+const updateOpportunity = async (event: UpdateOpportunityRequest): Promise<UpdateOpportunityResponse> => {
+  return event as UpdateOpportunityResponse;
 };
 
-const createOpportunity = async (opportunity?: Opportunity): Promise<Opportunity> => {
-
-  if (!opportunity) throw new Error('opportunity is required');
-
-  return opportunity;
+const createOpportunity = async (event: CreateOpportunityRequest): Promise<CreateOpportunityResponse> => {
+  return event as CreateOpportunityResponse;
 };
 
-const rawHandler = async (event: Event) => {
-  switch (event.info.fieldName) {
-    case 'getOpportunities':
-      return getOpportunities();
-    case 'deleteOpportunity':
-      return deleteOpportunity();
-    case 'updateOpportunity':
-      return updateOpportunity(event.arguments.id, event.arguments.opportunity);
-    case 'createOpportunity':
-      return createOpportunity(event.arguments.opportunity);
-  }
-};
-
-export const handler = middy(rawHandler)
-  // Use the middleware by passing the Metrics instance as a parameter
-  .use(logMetrics(metrics))
-  .use(injectLambdaContext(logger, { logEvent: true }))
-  .use(captureLambdaHandler(tracer, { captureResponse: false }));
+export const handler = connectMiddleware(
+  async (event: AppsyncEvent<FieldName>) => {
+    switch (event.info.fieldName) {
+      case 'getOpportunities':
+        return getOpportunities();
+      case 'deleteOpportunity':
+        return deleteOpportunity(event.arguments);
+      case 'updateOpportunity':
+        return updateOpportunity(event.arguments);
+      case 'createOpportunity':
+        return createOpportunity(event.arguments);
+    }
+  },
+);
