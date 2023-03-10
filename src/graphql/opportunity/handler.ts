@@ -1,5 +1,8 @@
+import { repository, translateFromDataObject, translateToDataObject } from '../dynamodb/opportunity';
 import { AppsyncEvent, connectMiddleware } from '../lib/handler';
-import { CreateOpportunityRequest, CreateOpportunityResponse, DeleteOpportunityRequest, GetOpportunitiesResponse, UpdateOpportunityRequest, UpdateOpportunityResponse } from '../lib/model';
+import { CreateOpportunityRequest, DeleteOpportunityRequest, GetOpportunitiesResponse, UpdateOpportunityRequest } from '../lib/model';
+
+const tableName = process.env.TABLE_NAME!;
 
 const enum FieldName {
   getOpportunities = 'getOpportunities',
@@ -9,18 +12,26 @@ const enum FieldName {
 }
 
 const getOpportunities = async (): Promise<GetOpportunitiesResponse> => {
-  return { opportunities: [] };
+  const repo = repository(tableName);
+  const opportunities = await repo.scan().then((items) => items.map((item) => translateFromDataObject(item)));
+  return {
+    opportunities: opportunities,
+  };
 };
 
-const deleteOpportunity = async (event: DeleteOpportunityRequest) => {
+const deleteOpportunity = async (event: DeleteOpportunityRequest): Promise<void> => {
+  const repo = repository(tableName);
+  await repo.delete(event);
 };
 
-const updateOpportunity = async (event: UpdateOpportunityRequest): Promise<UpdateOpportunityResponse> => {
-  return event as UpdateOpportunityResponse;
+const updateOpportunity = async (event: UpdateOpportunityRequest): Promise<void> => {
+  const repo = repository(tableName);
+  await repo.update({ id: event.id }, event);
 };
 
-const createOpportunity = async (event: CreateOpportunityRequest): Promise<CreateOpportunityResponse> => {
-  return event as CreateOpportunityResponse;
+const createOpportunity = async (event: CreateOpportunityRequest): Promise<void> => {
+  const repo = repository(tableName);
+  await repo.put(translateToDataObject(event));
 };
 
 export const handler = connectMiddleware(
