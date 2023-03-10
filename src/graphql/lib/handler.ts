@@ -12,7 +12,7 @@ export interface AppsyncEvent<T> {
   arguments: any;
 }
 
-export const connectMiddleware =(handler?: any) => middy(handler)
+export const connectMiddleware = (handler?: any) => middy(handler)
   // Use the middleware by passing the Metrics instance as a parameter
   .use(logMetrics(metrics))
   .use(injectLambdaContext(logger, { logEvent: true }))
