@@ -1,11 +1,15 @@
 import { App, Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import { GraphQLBackend } from './appsync-backend/main';
 
 export class MyStack extends Stack {
+
+  public readonly api: GraphQLBackend;
+
   constructor(scope: Construct, id: string, props: StackProps = {}) {
     super(scope, id, props);
 
-    // define resources here...
+    this.api = new GraphQLBackend(this, 'GraphQLBackend');
   }
 }
 

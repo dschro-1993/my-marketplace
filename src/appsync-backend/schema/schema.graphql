@@ -1,0 +1,18 @@
+type Opportunity {
+  id: ID!
+  name: String!
+  description: String!
+  reporter: User!
+  createdDate: Date!
+  lastModifiedDate: Date!
+}
+
+type Query {
+  getOpportunities: [Opportunity]
+}
+
+type Mutation {
+  createOpportunity(name: String!, description: String!): Opportunity
+  updateOpportunity(id: String!, newOpportunity: Opportunity!): Opportunity
+  deleteOpportunity(id: ID!): Opportunity
+}

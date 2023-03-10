@@ -4,7 +4,16 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   defaultReleaseBranch: 'main',
   name: 'marketplace',
 
-  // deps: [],                /* Runtime dependencies of this module. */
+  deps: [
+    '@aws-lambda-powertools/tracer',
+    '@aws-lambda-powertools/metrics',
+    '@aws-lambda-powertools/logger',
+    '@types/aws-lambda',
+    '@aws-cdk/aws-lambda',
+    '@aws-cdk/aws-appsync',
+    '@aws-cdk/aws-dynamodb',
+    '@middy/core',
+  ],
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   // devDeps: [],             /* Build dependencies for this module. */
   // packageName: undefined,  /* The "name" in package.json. */

@@ -55,12 +55,8 @@
       "type": "build"
     },
     {
-      "name": "json-schema",
-      "type": "build"
-    },
-    {
       "name": "npm-check-updates",
-      "version": "^15",
+      "version": "^16",
       "type": "build"
     },
     {
@@ -78,6 +74,38 @@
     {
       "name": "typescript",
       "type": "build"
+    },
+    {
+      "name": "@aws-cdk/aws-appsync",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-dynamodb",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-lambda",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-lambda-powertools/logger",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-lambda-powertools/metrics",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-lambda-powertools/tracer",
+      "type": "runtime"
+    },
+    {
+      "name": "@middy/core",
+      "type": "runtime"
+    },
+    {
+      "name": "@types/aws-lambda",
+      "type": "runtime"
     },
     {
       "name": "aws-cdk-lib",
