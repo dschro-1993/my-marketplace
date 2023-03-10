@@ -86,8 +86,7 @@ export class GraphQLBackend extends Construct {
       },
     });
 
-    this.dynamoDS.opportunitiesTable.grantReadData(handler);
-    this.dynamoDS.opportunitiesTable.grantWriteData(handler);
+    this.dynamoDS.opportunitiesTable.grantReadWriteData(handler);
 
     this.api.addLambdaDataSource('getOpportunities', handler);
     this.api.addLambdaDataSource('updateOpportunity', handler);
