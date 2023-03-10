@@ -43,6 +43,7 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
+    "aws-sdk": "^2.1332.0",
     "@aws-cdk/aws-appsync": "^1.196.0",
     "@aws-cdk/aws-dynamodb": "^1.196.0",
     "@aws-cdk/aws-lambda": "^1.196.0",
