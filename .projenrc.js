@@ -27,6 +27,18 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     '@graphql-codegen/typescript-resolvers',
     'typescript',
   ],
+
+  eslintOptions: {
+    ignorePatterns: [
+      'src/generated/*',
+      '*.js',
+      '!.projenrc.js',
+      '*.d.ts',
+      'node_modules/',
+      '*.generated.ts',
+      'coverage',
+    ],
+  },
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   // packageName: undefined,  /* The "name" in package.json. */
 });
