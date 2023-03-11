@@ -27,11 +27,11 @@ export class DynamoDataSource extends Construct {
 
     this.opportunitiesTable = new Table(this, 'OpportunitiesTable', {
       partitionKey: {
-        name: 'id',
+        name: 'id', // id = uuid
         type: AttributeType.STRING,
       },
       sortKey: {
-        name: 'name',
+        name: 'ca', // ca = createdAt
         type: AttributeType.STRING,
       },
       tableName: OPPORTUNITIES_TABLE_NAME,
@@ -40,7 +40,11 @@ export class DynamoDataSource extends Construct {
 
     this.usersTable = new Table(this, 'UsersTable', {
       partitionKey: {
-        name: 'email',
+        name: 'id', // id = uuid
+        type: AttributeType.STRING,
+      },
+      sortKey: {
+        name: 'ea', // ea = email address
         type: AttributeType.STRING,
       },
       tableName: USERS_TABLE_NAME,
