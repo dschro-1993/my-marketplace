@@ -22,6 +22,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
 
   gitignore: [
     'src/generated/*',
+    'graphql.schema.json',
   ],
 
   devDeps: [
