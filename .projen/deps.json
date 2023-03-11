@@ -96,18 +96,6 @@
       "type": "build"
     },
     {
-      "name": "@aws-cdk/aws-appsync",
-      "type": "runtime"
-    },
-    {
-      "name": "@aws-cdk/aws-dynamodb",
-      "type": "runtime"
-    },
-    {
-      "name": "@aws-cdk/aws-lambda",
-      "type": "runtime"
-    },
-    {
       "name": "@aws-lambda-powertools/logger",
       "type": "runtime"
     },

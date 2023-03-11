@@ -124,19 +124,19 @@ exports[`Snapshot 1`] = `
             "ApiId",
           ],
         },
-        "Definition": "scalar Date
+        "Definition": "scalar AWSDate
 
 interface Entity {
   id: ID!
-  createdDate: Date!
-  lastModifiedDate: Date!
+  createdDate: AWSDate!
+  lastModifiedDate: AWSDate!
 }
 
 # ---------------------------------------------- USERS ----------------------------------------------
 type User implements Entity {
   id: ID!
-  createdDate: Date!
-  lastModifiedDate: Date!
+  createdDate: AWSDate!
+  lastModifiedDate: AWSDate!
   name: String!
   email: String!
 }
@@ -167,8 +167,8 @@ input UpdateUserRequest {
 # ---------------------------------------------- OPPORTUNITIES ----------------------------------------------
 type Opportunity implements Entity {
   id: ID!
-  createdDate: Date!
-  lastModifiedDate: Date!
+  createdDate: AWSDate!
+  lastModifiedDate: AWSDate!
   name: String!
   description: String!
   reporter: User!
@@ -801,7 +801,7 @@ type Mutation {
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "b3d3358ef3c564460d1253c88c52322f13b8fbd73b0b0c25e48c596609516ebd.zip",
+          "S3Key": "cc85b2730026238fc2a91ba850859ed2e64a055b6f842b5e5ead861bf5d79fe8.zip",
         },
         "Environment": {
           "Variables": {
