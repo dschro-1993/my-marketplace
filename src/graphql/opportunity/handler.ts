@@ -1,6 +1,6 @@
-import { opportunityRepository, translateFromDataObjectToOpportunity, translateOpportunityToDataObject } from './repo';
+import { opportunityRepository, translateCreateOpportunityRequestToDataObject, translateFromDataObjectToOpportunity } from './repo';
+import { CreateOpportunityRequest, DeleteOpportunityRequest, OpportunityList, UpdateOpportunityRequest } from '../../generated/graphql';
 import { AppsyncEvent, connectMiddleware } from '../lib/handler';
-import { CreateOpportunityRequest, DeleteOpportunityRequest, GetOpportunitiesResponse, UpdateOpportunityRequest } from '../lib/model';
 
 const enum FieldName {
   getOpportunities = 'getOpportunities',
@@ -9,7 +9,7 @@ const enum FieldName {
   createOpportunity = 'createOpportunity',
 }
 
-const getOpportunities = async (): Promise<GetOpportunitiesResponse> => {
+const getOpportunities = async (): Promise<OpportunityList> => {
   const opportunities = await opportunityRepository()
     .scan()
     .then((items) => Promise.all(items.map((item) => translateFromDataObjectToOpportunity(item))));
@@ -19,20 +19,27 @@ const getOpportunities = async (): Promise<GetOpportunitiesResponse> => {
   };
 };
 
-const deleteOpportunity = async (event: DeleteOpportunityRequest): Promise<void> => {
+const deleteOpportunity = async (event: DeleteOpportunityRequest): Promise<boolean> => {
+
   await opportunityRepository().delete(event);
+
+  return true;
 };
 
-const updateOpportunity = async (event: UpdateOpportunityRequest): Promise<void> => {
+const updateOpportunity = async (event: UpdateOpportunityRequest): Promise<boolean> => {
   await opportunityRepository().update(
     { id: event.id },
     event,
   );
+
+  return true;
 };
 
-const createOpportunity = async (event: CreateOpportunityRequest): Promise<void> => {
-  const dto = await translateOpportunityToDataObject(event);
+const createOpportunity = async (event: CreateOpportunityRequest): Promise<boolean> => {
+  const dto = await translateCreateOpportunityRequestToDataObject(event);
   await opportunityRepository().put(dto);
+
+  return true;
 };
 
 export const handler = connectMiddleware(
@@ -46,6 +53,8 @@ export const handler = connectMiddleware(
         return updateOpportunity(event.arguments);
       case 'createOpportunity':
         return createOpportunity(event.arguments);
+      default:
+        return null;
     }
   },
 );

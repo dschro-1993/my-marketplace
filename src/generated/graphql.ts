@@ -4,6 +4,7 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -17,10 +18,19 @@ export type Scalars = {
 export type CreateOpportunityRequest = {
   description: Scalars['String'];
   name: Scalars['String'];
-  reporter: UserRequest;
+  reporter: Scalars['String'];
+};
+
+export type CreateUserRequest = {
+  email: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type DeleteOpportunityRequest = {
+  id: Scalars['ID'];
+};
+
+export type DeleteUserRequest = {
   id: Scalars['ID'];
 };
 
@@ -29,26 +39,52 @@ export type GetOpportunitiesResponse = {
   opportunities?: Maybe<Array<Maybe<Opportunity>>>;
 };
 
+export type GetUserByEmailRequest = {
+  email: Scalars['String'];
+};
+
+export type GetUserByIdRequest = {
+  id: Scalars['ID'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createOpportunity?: Maybe<Scalars['Boolean']>;
+  createUser?: Maybe<Scalars['Boolean']>;
   deleteOpportunity?: Maybe<Scalars['Boolean']>;
+  deleteUser?: Maybe<Scalars['Boolean']>;
   updateOpportunity?: Maybe<Scalars['Boolean']>;
+  updateUser?: Maybe<Scalars['Boolean']>;
 };
 
 
 export type MutationCreateOpportunityArgs = {
-  event?: InputMaybe<CreateOpportunityRequest>;
+  event: CreateOpportunityRequest;
+};
+
+
+export type MutationCreateUserArgs = {
+  event: CreateUserRequest;
 };
 
 
 export type MutationDeleteOpportunityArgs = {
-  event?: InputMaybe<DeleteOpportunityRequest>;
+  event: DeleteOpportunityRequest;
+};
+
+
+export type MutationDeleteUserArgs = {
+  event: DeleteUserRequest;
 };
 
 
 export type MutationUpdateOpportunityArgs = {
-  event?: InputMaybe<UpdateOpportunityRequest>;
+  event: UpdateOpportunityRequest;
+};
+
+
+export type MutationUpdateUserArgs = {
+  event: UpdateUserRequest;
 };
 
 export type Opportunity = {
@@ -61,16 +97,39 @@ export type Opportunity = {
   reporter: User;
 };
 
+export type OpportunityList = {
+  __typename?: 'OpportunityList';
+  opportunities?: Maybe<Array<Maybe<Opportunity>>>;
+};
+
 export type Query = {
   __typename?: 'Query';
   getOpportunities?: Maybe<GetOpportunitiesResponse>;
+  getUserByEmail?: Maybe<User>;
+  getUserById?: Maybe<User>;
+};
+
+
+export type QueryGetUserByEmailArgs = {
+  event: GetUserByEmailRequest;
+};
+
+
+export type QueryGetUserByIdArgs = {
+  id: GetUserByIdRequest;
 };
 
 export type UpdateOpportunityRequest = {
   description: Scalars['String'];
   id: Scalars['ID'];
   name: Scalars['String'];
-  reporter: UserRequest;
+  reporter: Scalars['String'];
+};
+
+export type UpdateUserRequest = {
+  email: Scalars['String'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
 };
 
 export type User = {
@@ -81,11 +140,6 @@ export type User = {
   lastModifiedDate: Scalars['Date'];
   name: Scalars['String'];
 };
-
-export type UserRequest = {
-  id: Scalars['ID'];
-};
-
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -158,34 +212,44 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   CreateOpportunityRequest: CreateOpportunityRequest;
+  CreateUserRequest: CreateUserRequest;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   DeleteOpportunityRequest: DeleteOpportunityRequest;
+  DeleteUserRequest: DeleteUserRequest;
   GetOpportunitiesResponse: ResolverTypeWrapper<GetOpportunitiesResponse>;
+  GetUserByEmailRequest: GetUserByEmailRequest;
+  GetUserByIdRequest: GetUserByIdRequest;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Mutation: ResolverTypeWrapper<{}>;
   Opportunity: ResolverTypeWrapper<Opportunity>;
+  OpportunityList: ResolverTypeWrapper<OpportunityList>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   UpdateOpportunityRequest: UpdateOpportunityRequest;
+  UpdateUserRequest: UpdateUserRequest;
   User: ResolverTypeWrapper<User>;
-  UserRequest: UserRequest;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   CreateOpportunityRequest: CreateOpportunityRequest;
+  CreateUserRequest: CreateUserRequest;
   Date: Scalars['Date'];
   DeleteOpportunityRequest: DeleteOpportunityRequest;
+  DeleteUserRequest: DeleteUserRequest;
   GetOpportunitiesResponse: GetOpportunitiesResponse;
+  GetUserByEmailRequest: GetUserByEmailRequest;
+  GetUserByIdRequest: GetUserByIdRequest;
   ID: Scalars['ID'];
   Mutation: {};
   Opportunity: Opportunity;
+  OpportunityList: OpportunityList;
   Query: {};
   String: Scalars['String'];
   UpdateOpportunityRequest: UpdateOpportunityRequest;
+  UpdateUserRequest: UpdateUserRequest;
   User: User;
-  UserRequest: UserRequest;
 };
 
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
@@ -198,9 +262,12 @@ export type GetOpportunitiesResponseResolvers<ContextType = any, ParentType exte
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createOpportunity?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, Partial<MutationCreateOpportunityArgs>>;
-  deleteOpportunity?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, Partial<MutationDeleteOpportunityArgs>>;
-  updateOpportunity?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, Partial<MutationUpdateOpportunityArgs>>;
+  createOpportunity?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationCreateOpportunityArgs, 'event'>>;
+  createUser?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'event'>>;
+  deleteOpportunity?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteOpportunityArgs, 'event'>>;
+  deleteUser?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteUserArgs, 'event'>>;
+  updateOpportunity?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationUpdateOpportunityArgs, 'event'>>;
+  updateUser?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'event'>>;
 };
 
 export type OpportunityResolvers<ContextType = any, ParentType extends ResolversParentTypes['Opportunity'] = ResolversParentTypes['Opportunity']> = {
@@ -213,8 +280,15 @@ export type OpportunityResolvers<ContextType = any, ParentType extends Resolvers
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type OpportunityListResolvers<ContextType = any, ParentType extends ResolversParentTypes['OpportunityList'] = ResolversParentTypes['OpportunityList']> = {
+  opportunities?: Resolver<Maybe<Array<Maybe<ResolversTypes['Opportunity']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getOpportunities?: Resolver<Maybe<ResolversTypes['GetOpportunitiesResponse']>, ParentType, ContextType>;
+  getUserByEmail?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryGetUserByEmailArgs, 'event'>>;
+  getUserById?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryGetUserByIdArgs, 'id'>>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -231,6 +305,7 @@ export type Resolvers<ContextType = any> = {
   GetOpportunitiesResponse?: GetOpportunitiesResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Opportunity?: OpportunityResolvers<ContextType>;
+  OpportunityList?: OpportunityListResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };

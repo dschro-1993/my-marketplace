@@ -1,7 +1,8 @@
+import { v4 as uuidv4 } from 'uuid';
 import { OPPORTUNITIES_TABLE_NAME } from '../../constructs/dynamo';
+import { CreateOpportunityRequest, Opportunity, UpdateOpportunityRequest } from '../../generated/graphql';
 import { CrudRepository } from '../lib/dynamodb';
 import { DataObjectEntity } from '../lib/entity';
-import { Opportunity } from '../lib/model';
 import { translateFromDataObjectToUser, userRepository } from '../user/repo';
 
 export interface OpportunityDataObject extends DataObjectEntity {
@@ -10,14 +11,28 @@ export interface OpportunityDataObject extends DataObjectEntity {
   r: string; // reporter id
 }
 
-export const translateOpportunityToDataObject = async (opportunity: Opportunity): Promise<OpportunityDataObject> => {
+export const translateCreateOpportunityRequestToDataObject = (opportunity: CreateOpportunityRequest) => {
+  const timestamp = new Date().toISOString();
+
+  return {
+    id: uuidv4(),
+    n: opportunity.name,
+    d: opportunity.description,
+    r: opportunity.reporter, // reporter id
+    ca: timestamp,
+    ua: timestamp,
+  };
+};
+
+export const translateUpdateOpportunityRequestToDataObject = (opportunity: UpdateOpportunityRequest) => {
+  const timestamp = new Date().toISOString();
+
   return {
     id: opportunity.id,
     n: opportunity.name,
     d: opportunity.description,
-    r: opportunity.reporter.id,
-    createdAt: opportunity.createdDate.toISOString(),
-    updatedAt: opportunity.lastModifiedDate.toISOString(),
+    r: opportunity.reporter, // reporter id
+    ua: timestamp,
   };
 };
 
@@ -34,6 +49,16 @@ export const translateFromDataObjectToOpportunity = async (opportunityDataObject
     createdDate: new Date(opportunityDataObject.createdAt),
     lastModifiedDate: new Date(opportunityDataObject.updatedAt),
   };
+};
+
+export const translateFromDataObjectsToOpportunities = async (opportunityDataObjects: OpportunityDataObject[]): Promise<Opportunity[]> => {
+
+  const opportunities: Opportunity[] = [];
+  for (const opportunityDataObject of opportunityDataObjects) {
+    opportunities.push(await translateFromDataObjectToOpportunity(opportunityDataObject));
+  }
+
+  return opportunities;
 };
 
 export const opportunityRepository = () => new CrudRepository<OpportunityDataObject>(OPPORTUNITIES_TABLE_NAME);

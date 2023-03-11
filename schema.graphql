@@ -1,5 +1,6 @@
 scalar Date
 
+# ---------------------------------------------- USERS ----------------------------------------------
 type User {
   id: ID!
   name: String!
@@ -8,6 +9,30 @@ type User {
   lastModifiedDate: Date!
 }
 
+input CreateUserRequest {
+  name: String!
+  email: String!
+}
+
+input GetUserByEmailRequest {
+  email: String!
+}
+
+input GetUserByIdRequest {
+  id: ID!
+}
+
+input DeleteUserRequest {
+  id: ID!
+}
+
+input UpdateUserRequest {
+  id: ID!
+  name: String!
+  email: String!
+}
+
+# ---------------------------------------------- OPPORTUNITIES ----------------------------------------------
 type Opportunity {
   id: ID!
   name: String!
@@ -17,21 +42,21 @@ type Opportunity {
   lastModifiedDate: Date!
 }
 
-input UserRequest {
-  id: ID!
+type OpportunityList {
+  opportunities: [Opportunity]
 }
 
 input CreateOpportunityRequest {
   name: String!
   description: String!
-  reporter: UserRequest!
+  reporter: String!
 }
 
 input UpdateOpportunityRequest {
   id: ID!
   name: String!
   description: String!
-  reporter: UserRequest!
+  reporter: String!
 }
 
 input DeleteOpportunityRequest {
@@ -44,10 +69,15 @@ type GetOpportunitiesResponse {
 
 type Query {
   getOpportunities: GetOpportunitiesResponse
+  getUserByEmail(event: GetUserByEmailRequest!): User
+  getUserById(id: GetUserByIdRequest!): User
 }
 
 type Mutation {
-  createOpportunity(event: CreateOpportunityRequest): Boolean
-  updateOpportunity(event: UpdateOpportunityRequest): Boolean
-  deleteOpportunity(event: DeleteOpportunityRequest): Boolean
+  createOpportunity(event: CreateOpportunityRequest!): Boolean
+  updateOpportunity(event: UpdateOpportunityRequest!): Boolean
+  deleteOpportunity(event: DeleteOpportunityRequest!): Boolean
+  createUser(event: CreateUserRequest!): Boolean
+  deleteUser(event: DeleteUserRequest!): Boolean
+  updateUser(event: UpdateUserRequest!): Boolean
 }
