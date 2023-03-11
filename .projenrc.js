@@ -16,7 +16,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     'aws-sdk',
     '@middy/core',
     'graphql',
-    'uuid',
+    'nanoid',
     'graphql-codegen-typescript-common',
   ],
   devDeps: [

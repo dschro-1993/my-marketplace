@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import { nanoid } from 'nanoid';
 import { OPPORTUNITIES_TABLE_NAME } from '../../constructs/dynamo';
 import { CreateOpportunityRequest, Opportunity, UpdateOpportunityRequest } from '../../generated/graphql';
 import { CrudRepository } from '../lib/dynamodb';
@@ -15,7 +15,7 @@ export const translateCreateOpportunityRequestToDataObject = (opportunity: Creat
   const timestamp = new Date().toISOString();
 
   return {
-    id: uuidv4(),
+    id: nanoid(),
     n: opportunity.name,
     d: opportunity.description,
     r: opportunity.reporter, // reporter id

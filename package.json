@@ -63,7 +63,7 @@
     "constructs": "^10.0.5",
     "graphql": "^16.6.0",
     "graphql-codegen-typescript-common": "^0.18.2",
-    "uuid": "^9.0.0"
+    "nanoid": "^4.0.1"
   },
   "license": "Apache-2.0",
   "version": "0.0.0",

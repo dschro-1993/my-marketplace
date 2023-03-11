@@ -154,7 +154,7 @@
       "type": "runtime"
     },
     {
-      "name": "uuid",
+      "name": "nanoid",
       "type": "runtime"
     }
   ],
