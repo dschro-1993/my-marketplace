@@ -35,6 +35,12 @@ export type DeleteUserRequest = {
   id: Scalars['ID'];
 };
 
+export type Entity = {
+  createdDate: Scalars['Date'];
+  id: Scalars['ID'];
+  lastModifiedDate: Scalars['Date'];
+};
+
 export type GetOpportunitiesResponse = {
   __typename?: 'GetOpportunitiesResponse';
   opportunities?: Maybe<Array<Maybe<Opportunity>>>;
@@ -88,7 +94,7 @@ export type MutationUpdateUserArgs = {
   event: UpdateUserRequest;
 };
 
-export type Opportunity = {
+export type Opportunity = Entity & {
   __typename?: 'Opportunity';
   createdDate: Scalars['Date'];
   description: Scalars['String'];
@@ -133,7 +139,7 @@ export type UpdateUserRequest = {
   name: Scalars['String'];
 };
 
-export type User = {
+export type User = Entity & {
   __typename?: 'User';
   createdDate: Scalars['Date'];
   email: Scalars['String'];
@@ -218,6 +224,7 @@ export type ResolversTypes = {
   Date: ResolverTypeWrapper<Scalars['Date']>;
   DeleteOpportunityRequest: DeleteOpportunityRequest;
   DeleteUserRequest: DeleteUserRequest;
+  Entity: ResolversTypes['Opportunity'] | ResolversTypes['User'];
   GetOpportunitiesResponse: ResolverTypeWrapper<GetOpportunitiesResponse>;
   GetUserByEmailRequest: GetUserByEmailRequest;
   GetUserByIdRequest: GetUserByIdRequest;
@@ -240,6 +247,7 @@ export type ResolversParentTypes = {
   Date: Scalars['Date'];
   DeleteOpportunityRequest: DeleteOpportunityRequest;
   DeleteUserRequest: DeleteUserRequest;
+  Entity: ResolversParentTypes['Opportunity'] | ResolversParentTypes['User'];
   GetOpportunitiesResponse: GetOpportunitiesResponse;
   GetUserByEmailRequest: GetUserByEmailRequest;
   GetUserByIdRequest: GetUserByIdRequest;
@@ -257,6 +265,13 @@ export type ResolversParentTypes = {
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
   name: 'Date';
 }
+
+export type EntityResolvers<ContextType = any, ParentType extends ResolversParentTypes['Entity'] = ResolversParentTypes['Entity']> = {
+  __resolveType: TypeResolveFn<'Opportunity' | 'User', ParentType, ContextType>;
+  createdDate?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  lastModifiedDate?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+};
 
 export type GetOpportunitiesResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['GetOpportunitiesResponse'] = ResolversParentTypes['GetOpportunitiesResponse']> = {
   opportunities?: Resolver<Maybe<Array<Maybe<ResolversTypes['Opportunity']>>>, ParentType, ContextType>;
@@ -304,6 +319,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type Resolvers<ContextType = any> = {
   Date?: GraphQLScalarType;
+  Entity?: EntityResolvers<ContextType>;
   GetOpportunitiesResponse?: GetOpportunitiesResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Opportunity?: OpportunityResolvers<ContextType>;

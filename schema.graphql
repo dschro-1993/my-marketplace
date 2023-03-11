@@ -1,12 +1,18 @@
 scalar Date
 
-# ---------------------------------------------- USERS ----------------------------------------------
-type User {
+interface Entity {
   id: ID!
-  name: String!
-  email: String!
   createdDate: Date!
   lastModifiedDate: Date!
+}
+
+# ---------------------------------------------- USERS ----------------------------------------------
+type User implements Entity {
+  id: ID!
+  createdDate: Date!
+  lastModifiedDate: Date!
+  name: String!
+  email: String!
 }
 
 input CreateUserRequest {
@@ -33,13 +39,13 @@ input UpdateUserRequest {
 }
 
 # ---------------------------------------------- OPPORTUNITIES ----------------------------------------------
-type Opportunity {
+type Opportunity implements Entity {
   id: ID!
+  createdDate: Date!
+  lastModifiedDate: Date!
   name: String!
   description: String!
   reporter: User!
-  createdDate: Date!
-  lastModifiedDate: Date!
 }
 
 type OpportunityList {
