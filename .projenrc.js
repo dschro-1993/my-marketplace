@@ -15,9 +15,20 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     '@aws-sdk/client-dynamodb',
     'aws-sdk',
     '@middy/core',
+    'graphql-codegen-typescript-common',
+  ],
+  devDeps: [
+    '@graphql-codegen/introspection',
+    '@graphql-codegen/cli',
+    '@graphql-codegen/typescript',
+    '@graphql-codegen/typescript-operations',
+    '@graphql-codegen/typescript-resolvers',
+    'typescript',
   ],
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
-  // devDeps: [],             /* Build dependencies for this module. */
   // packageName: undefined,  /* The "name" in package.json. */
 });
+
+project.setScript('codegen', 'graphql-codegen --config codegen.ts'),
+
 project.synth();
