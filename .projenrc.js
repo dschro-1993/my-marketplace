@@ -15,6 +15,8 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     '@aws-sdk/client-dynamodb',
     'aws-sdk',
     '@middy/core',
+    'graphql',
+    'uuid',
     'graphql-codegen-typescript-common',
   ],
   devDeps: [
