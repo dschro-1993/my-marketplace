@@ -57,7 +57,7 @@ export class ServerlessMarketplaceStack extends Stack {
   createApi = () => {
     const api = new GraphqlApi(this, 'Api', {
       name: 'cdk-appsync-backend',
-      schema: SchemaFile.fromAsset(path.join(__dirname, 'schema', 'schema.graphql')),
+      schema: SchemaFile.fromAsset(path.join(__dirname, '..', 'schema.graphql')),
       authorizationConfig: {
         defaultAuthorization: {
           authorizationType: AuthorizationType.IAM,
@@ -85,7 +85,7 @@ export class ServerlessMarketplaceStack extends Stack {
   setupLambdaResolvers = (tables: Tables) => {
     const handler = new NodejsFunction(this, 'opportunitiesHandler', {
       ...commonHandlerProps,
-      entry: path.join(__dirname, 'lambda', 'opportunity.ts'),
+      entry: path.join(__dirname, 'graphql', 'opportunity', 'handler.ts'),
     });
 
     tables.opportunitiesTable.grantReadWriteData(handler);

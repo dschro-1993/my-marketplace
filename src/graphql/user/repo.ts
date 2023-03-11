@@ -1,5 +1,5 @@
-import { USERS_TABLE_NAME } from '../../constructs/dynamo';
 import { User } from '../../generated/graphql';
+import { USERS_TABLE_NAME } from '../../main';
 import { CrudRepository } from '../lib/dynamodb';
 import { Entity } from '../lib/entity';
 

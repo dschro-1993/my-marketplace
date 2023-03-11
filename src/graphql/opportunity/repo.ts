@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
-import { OPPORTUNITIES_TABLE_NAME } from '../../constructs/dynamo';
 import { CreateOpportunityRequest, Opportunity, UpdateOpportunityRequest } from '../../generated/graphql';
+import { OPPORTUNITIES_TABLE_NAME } from '../../main';
 import { CrudRepository } from '../lib/dynamodb';
 import { Entity } from '../lib/entity';
 import { translateFromDataObjectToUser, userRepository } from '../user/repo';
