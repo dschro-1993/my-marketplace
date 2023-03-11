@@ -1,6 +1,6 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-export type Maybe<T> = T | null;
-export type InputMaybe<T> = Maybe<T>;
+export type Maybe<T> = T | undefined;
+export type InputMaybe<T> = T | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -27,7 +27,8 @@ export type CreateUserRequest = {
 };
 
 export type DeleteOpportunityRequest = {
-  id: Scalars['ID'];
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
 export type DeleteUserRequest = {
@@ -140,6 +141,7 @@ export type User = {
   lastModifiedDate: Scalars['Date'];
   name: Scalars['String'];
 };
+
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;

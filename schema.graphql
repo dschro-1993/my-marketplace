@@ -60,7 +60,8 @@ input UpdateOpportunityRequest {
 }
 
 input DeleteOpportunityRequest {
-  id: ID!
+  id: ID
+  name: String
 }
 
 type GetOpportunitiesResponse {
