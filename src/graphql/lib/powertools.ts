@@ -15,7 +15,7 @@ const logger = new Logger({
     logger: {
       name: '@aws-lambda-powertools/logger',
       version: awsLambdaPowertoolsVersion,
-    }
+    },
   },
 });
 

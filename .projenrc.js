@@ -13,7 +13,6 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     '@aws-cdk/aws-appsync',
     '@aws-cdk/aws-dynamodb',
     '@aws-sdk/client-dynamodb',
-    '@types/aws-sdk',
     'aws-sdk',
     '@middy/core',
   ],

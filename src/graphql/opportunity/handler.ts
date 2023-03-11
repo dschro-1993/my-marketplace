@@ -10,7 +10,6 @@ const enum FieldName {
 }
 
 const getOpportunities = async (): Promise<GetOpportunitiesResponse> => {
-
   const opportunities = await opportunityRepository()
     .scan()
     .then((items) => Promise.all(items.map((item) => translateFromDataObjectToOpportunity(item))));
