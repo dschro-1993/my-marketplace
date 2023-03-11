@@ -1,16 +1,16 @@
-scalar Date
+scalar AWSDate
 
 interface Entity {
   id: ID!
-  createdDate: Date!
-  lastModifiedDate: Date!
+  createdDate: AWSDate!
+  lastModifiedDate: AWSDate!
 }
 
 # ---------------------------------------------- USERS ----------------------------------------------
 type User implements Entity {
   id: ID!
-  createdDate: Date!
-  lastModifiedDate: Date!
+  createdDate: AWSDate!
+  lastModifiedDate: AWSDate!
   name: String!
   email: String!
 }
@@ -41,8 +41,8 @@ input UpdateUserRequest {
 # ---------------------------------------------- OPPORTUNITIES ----------------------------------------------
 type Opportunity implements Entity {
   id: ID!
-  createdDate: Date!
-  lastModifiedDate: Date!
+  createdDate: AWSDate!
+  lastModifiedDate: AWSDate!
   name: String!
   description: String!
   reporter: User!
