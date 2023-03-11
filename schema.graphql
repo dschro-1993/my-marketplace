@@ -1,3 +1,13 @@
+scalar Date
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  createdDate: Date!
+  lastModifiedDate: Date!
+}
+
 type Opportunity {
   id: ID!
   name: String!
@@ -7,12 +17,37 @@ type Opportunity {
   lastModifiedDate: Date!
 }
 
+input UserRequest {
+  id: ID!
+}
+
+input CreateOpportunityRequest {
+  name: String!
+  description: String!
+  reporter: UserRequest!
+}
+
+input UpdateOpportunityRequest {
+  id: ID!
+  name: String!
+  description: String!
+  reporter: UserRequest!
+}
+
+input DeleteOpportunityRequest {
+  id: ID!
+}
+
+type GetOpportunitiesResponse {
+  opportunities: [Opportunity]
+}
+
 type Query {
-  getOpportunities: [Opportunity]
+  getOpportunities: GetOpportunitiesResponse
 }
 
 type Mutation {
-  createOpportunity(name: String!, description: String!): Opportunity
-  updateOpportunity(id: String!, newOpportunity: Opportunity!): Opportunity
-  deleteOpportunity(id: ID!): Opportunity
+  createOpportunity(event: CreateOpportunityRequest): Boolean
+  updateOpportunity(event: UpdateOpportunityRequest): Boolean
+  deleteOpportunity(event: DeleteOpportunityRequest): Boolean
 }
