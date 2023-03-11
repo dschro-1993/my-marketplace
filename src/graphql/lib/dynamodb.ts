@@ -1,8 +1,8 @@
 import https from 'https';
 import * as DynamoDB from 'aws-sdk/clients/dynamodb';
-import { AuditableEntity } from './entity';
+import { Entity } from './entity';
 
-export class CrudRepository<T extends AuditableEntity> {
+export class CrudRepository<T extends Entity> {
   private documentClient: DynamoDB.DocumentClient;
   private tableName: string;
 

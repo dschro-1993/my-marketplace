@@ -2,10 +2,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { OPPORTUNITIES_TABLE_NAME } from '../../constructs/dynamo';
 import { CreateOpportunityRequest, Opportunity, UpdateOpportunityRequest } from '../../generated/graphql';
 import { CrudRepository } from '../lib/dynamodb';
-import { DataObjectEntity } from '../lib/entity';
+import { Entity } from '../lib/entity';
 import { translateFromDataObjectToUser, userRepository } from '../user/repo';
 
-export interface OpportunityDataObject extends DataObjectEntity {
+export interface OpportunityDataObject extends Entity {
   n: string; // name
   d: string; // description
   r: string; // reporter id
@@ -46,8 +46,8 @@ export const translateFromDataObjectToOpportunity = async (opportunityDataObject
     name: opportunityDataObject.n,
     description: opportunityDataObject.d,
     reporter: translateFromDataObjectToUser(reporter!),
-    createdDate: new Date(opportunityDataObject.createdAt),
-    lastModifiedDate: new Date(opportunityDataObject.updatedAt),
+    createdDate: new Date(opportunityDataObject.ca),
+    lastModifiedDate: new Date(opportunityDataObject.ua),
   };
 };
 

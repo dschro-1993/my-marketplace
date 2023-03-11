@@ -1,10 +1,10 @@
-export type AuditableEntity = {
+export interface AuditableEntity {
   // Hash-Key will be defined by individual Domains
-  createdAt: string;
-  updatedAt: string;
+  ca: string; // created at
+  ua: string; // updated at
   [key: string]: any;
 }
 
-export interface DataObjectEntity extends AuditableEntity {
+export interface Entity extends AuditableEntity {
   id: string;
 }
