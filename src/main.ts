@@ -78,7 +78,7 @@ export class ServerlessMarketplaceStack extends Stack {
     const vpc = this.vpc;
     const documentDb = new DatabaseCluster(this, 'DocumentDbCluster', {
       masterUser: {
-        username: 'admin',
+        username: 'powersniper123',
         excludeCharacters: excludedCharacters,
       },
       instanceType: InstanceType.of(InstanceClass.R5, InstanceSize.LARGE),
