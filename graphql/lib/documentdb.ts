@@ -2,7 +2,7 @@ import * as mongodb from "mongodb";
 import * as dotenv  from "dotenv";
 
 export type Document = {
-  id:        mongodb.ObjectId,
+  _id:       mongodb.ObjectId,
   createdAt: string,
   updatedAt: string,
 }
@@ -21,14 +21,54 @@ const connectToDB = async(): Promise<void> => {
   }
 }
 
-export const getCollection = async <T extends Document>(name: string): Promise<mongodb.Collection<T>> => {
+// const validator = {
+//   $jsonSchema: {
+//     bsonType: "object",
+//     required: ["createdAt", "updatedAt", "..."],
+//     additionalProperties: false,
+//     properties: {
+//       _id: {},
+//       createdAt: {
+//         bsonType: "string",
+//       },
+//       updatedAt: {
+//         bsonType: "string",
+//       },
+//     },
+//   },
+// };
+export type ValidationOptions = {
+  validator: object,
+}
+
+const applyValidation = async (db: mongodb.Db, collectionName: string, opts: ValidationOptions): Promise<void> => {
+ await db
+  .command({
+    collMod:   collectionName,
+    validator: opts.validator,
+  })
+  .catch(async () => { // If non-existent
+    await db
+      .createCollection(
+        collectionName,
+        {validator: opts.validator},
+      )
+      .catch((reason) => {
+        console.error(reason);
+        throw reason;
+      });
+  });
+}
+
+export const getCollection = async <T extends Document>(name: string, validationOptions?: ValidationOptions): Promise<mongodb.Collection<T>> => {
   dotenv.config();
   await connectToDB();
-  const  db = client.db(process.env.DB_NAME!); // => use "DB_NAME"
+  const db = client.db(process.env.DB_NAME!); // => Use "DB_NAME"
+  if (validationOptions) { applyValidation(db, name, validationOptions); }
   return db.collection<T>(name);
 }
 
-// (async () => {
-//   const userColl = await getCollection("User");
-//   console.debug(userColl.find())
-// })();
+(async () => {
+  const userColl = await getCollection("User");
+  console.debug(userColl.find())
+})();
