@@ -24,7 +24,7 @@ const connectToDB = async(): Promise<void> => {
 export const getCollection = async <T extends Document>(name: string): Promise<mongodb.Collection<T>> => {
   dotenv.config();
   await connectToDB();
-  const  db = client.db(process.env.DB_NAME!); // => `use "DB_NAME"`
+  const  db = client.db(process.env.DB_NAME!); // => use "DB_NAME"
   return db.collection<T>(name);
 }
 
