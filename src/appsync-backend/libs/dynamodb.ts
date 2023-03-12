@@ -23,8 +23,9 @@ export class CrudRepository<T extends AuditableEntity> {
   }
 
   /**
+   * Todo:
    * Scan  cannot return sorted results (based on Sort-Key)
-   * Query need to be used for that, i.e. => query(indexName, pkey=<>, skey is-in<>, pageable) => Search Opportunities by Category
+   * Query need to be used for that, i.e. => query(indexName, pkey=<>, skey is-in <>, pageable) => Search Opportunities by Category
    * @param pageable 
    */
   async findAll(pageable: Pageable<T>): Promise<Page<T>> {
