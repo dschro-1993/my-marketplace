@@ -42,7 +42,7 @@ export type ValidationOptions = {
 }
 
 const applyValidation = async (
-  db:             mongodb.DB,
+  db:             mongodb.Db,
   collectionName: string,
   opts:           ValidationOptions,
 ): Promise<void> => {
