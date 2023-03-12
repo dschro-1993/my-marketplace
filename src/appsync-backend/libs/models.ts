@@ -6,11 +6,11 @@ export type AuditableEntity = {
 
 // Todo: Add Filter-Criteria
 export type Page<T extends AuditableEntity> = {
-  lastKey?: Partial<T> | undefined, // => Used as Marker
+  lastKey?: Partial<T>, // => Used as Marker
   items:    T[],
 }
 
 export type Pageable<T extends AuditableEntity> = {
-  nextKey?: Partial<T> | undefined, // => Used as Offset
+  nextKey?: Partial<T>, // => Used as Offset
   limit?:   number,
 }
