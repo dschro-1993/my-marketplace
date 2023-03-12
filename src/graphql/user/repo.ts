@@ -1,5 +1,4 @@
 import { User } from '../../generated/graphql';
-import { USERS_TABLE_NAME } from '../../main';
 import { CrudRepository } from '../lib/dynamodb';
 import { Entity } from '../lib/entity';
 
@@ -18,4 +17,4 @@ export const translateFromDataObjectToUser = (userDataObject: UserDataObject): U
   };
 };
 
-export const userRepository = () => new CrudRepository<UserDataObject>(USERS_TABLE_NAME);
+export const userRepository = () => new CrudRepository<UserDataObject>('bar');

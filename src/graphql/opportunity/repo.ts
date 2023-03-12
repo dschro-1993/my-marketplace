@@ -1,6 +1,5 @@
 import { nanoid } from 'nanoid';
 import { CreateOpportunityRequest, Opportunity, UpdateOpportunityRequest } from '../../generated/graphql';
-import { OPPORTUNITIES_TABLE_NAME } from '../../main';
 import { CrudRepository } from '../lib/dynamodb';
 import { Entity } from '../lib/entity';
 import { translateFromDataObjectToUser, userRepository } from '../user/repo';
@@ -61,4 +60,4 @@ export const translateFromDataObjectsToOpportunities = async (opportunityDataObj
   return opportunities;
 };
 
-export const opportunityRepository = () => new CrudRepository<OpportunityDataObject>(OPPORTUNITIES_TABLE_NAME);
+export const opportunityRepository = () => new CrudRepository<OpportunityDataObject>('foo');
