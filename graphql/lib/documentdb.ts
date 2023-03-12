@@ -41,7 +41,11 @@ export type ValidationOptions = {
   validator: object,
 }
 
-const applyValidation = async (db: mongodb.Db, collectionName: string, opts: ValidationOptions): Promise<void> => {
+const applyValidation = async (
+  db:             mongodb.DB,
+  collectionName: string,
+  opts:           ValidationOptions,
+): Promise<void> => {
  await db
   .command({
     collMod:   collectionName,
@@ -60,11 +64,16 @@ const applyValidation = async (db: mongodb.Db, collectionName: string, opts: Val
   });
 }
 
-export const getCollection = async <T extends Document>(name: string, validationOptions?: ValidationOptions): Promise<mongodb.Collection<T>> => {
+export const getCollection = async <T extends Document>(
+  name:               string,
+  validationOptions?: ValidationOptions,
+): Promise<mongodb.Collection<T>> => {
   dotenv.config();
   await connectToDB();
-  const db = client.db(process.env.DB_NAME!); // => Use "DB_NAME"
-  if (validationOptions) { applyValidation(db, name, validationOptions); }
+  const db = client.db(process.env.DB_NAME!);
+  if (validationOptions) {
+    applyValidation(db, name, validationOptions);
+  }
   return db.collection<T>(name);
 }
 
