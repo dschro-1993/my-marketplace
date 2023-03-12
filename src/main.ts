@@ -46,18 +46,11 @@ export class ServerlessMarketplaceStack extends Stack {
   createVpc = () => {
 
     const maxAzs = isDev ? 2 : 3;
-    const natGateways = isDev ? 1 : 2;
 
     return new Vpc(this, 'Vpc', {
       maxAzs: maxAzs,
-      natGateways: natGateways,
       cidr: vpcConfig.cidr,
       subnetConfiguration: [
-        {
-          name: 'public',
-          subnetType: SubnetType.PUBLIC,
-          cidrMask: vpcConfig.subnetMask,
-        },
         {
           name: 'data',
           subnetType: SubnetType.PRIVATE_ISOLATED,
@@ -184,6 +177,10 @@ export class ServerlessMarketplaceStack extends Stack {
       // configures powertools for lambda
       ...commonHandlerProps,
       entry: entry,
+      vpc: this.vpc,
+      vpcSubnets: {
+        subnetType: SubnetType.PRIVATE_ISOLATED,
+      },
     });
 
     // supply environment variables to reach documentDb
