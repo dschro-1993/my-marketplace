@@ -77,7 +77,7 @@ export const getCollection = async <T extends Document>(
   return db.collection<T>(name);
 }
 
-(async () => {
-  const userColl = await getCollection("User");
-  console.debug(userColl.find())
-})();
+// (async () => {
+//   const userColl = await getCollection("User");
+//   console.debug(userColl.find())
+// })();
