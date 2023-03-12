@@ -15,7 +15,6 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     '@middy/core',
     'graphql',
     'nanoid',
-    'graphql-codegen-typescript-common',
   ],
 
   gitignore: [
@@ -24,6 +23,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   ],
 
   devDeps: [
+    'graphql-codegen-typescript-common',
     '@graphql-codegen/introspection',
     '@graphql-codegen/cli',
     '@graphql-codegen/typescript',
