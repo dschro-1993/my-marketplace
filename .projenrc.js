@@ -5,6 +5,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   name: 'marketplace',
 
   deps: [
+    'mongodb',
     '@aws-lambda-powertools/tracer',
     '@aws-lambda-powertools/metrics',
     '@aws-lambda-powertools/logger',
@@ -15,7 +16,9 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     '@middy/core',
   ],
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
-  // devDeps: [],             /* Build dependencies for this module. */
+  devDeps: [
+    'dotenv'
+  ],
   // packageName: undefined,  /* The "name" in package.json. */
 });
 project.synth();
