@@ -10,8 +10,6 @@ export type Document = {
 let client: mongodb.MongoClient;
 
 const connectToDB = async(): Promise<void> => {
-  dotenv.config();
-
   if (!client) {
     client = new mongodb.MongoClient(process.env.DB_CONN_STRING!);
     await client
@@ -24,6 +22,7 @@ const connectToDB = async(): Promise<void> => {
 }
 
 export const getCollection = async <T extends Document>(name: string): Promise<mongodb.Collection<T>> => {
+  dotenv.config();
   await connectToDB();
   const  db = client.db(process.env.DB_NAME!); // => `use "DB_NAME"`
   return db.collection<T>(name);
